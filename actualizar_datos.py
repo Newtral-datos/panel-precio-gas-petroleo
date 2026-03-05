@@ -196,7 +196,7 @@ def update_oil() -> bool:
         new_row = pd.DataFrame([{"fecha": fecha, "precio": price}])
         df = pd.concat([df, new_row], ignore_index=True)
         df = df.sort_values("fecha").reset_index(drop=True)
-        df.to_csv(oil_csv, index=False, sep=";")
+        df.to_csv(oil_csv, index=False, sep=",")
         log.info("petroleo.csv actualizado (%d filas)", len(df))
     except Exception as exc:
         log.warning("Error al actualizar petroleo.csv: %s", exc)
