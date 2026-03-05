@@ -1,0 +1,38 @@
+name: Actualizar datos de energía
+
+on:
+  schedule:
+    - cron: "15 9 * * 1-5"   # Lunes–Viernes a las 09:15 UTC (10:15 CET / 11:15 CEST)
+  workflow_dispatch:           # Disparo manual desde la UI de GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - run: playwright install chromium --with-deps
+
+      - run: python actualizar_datos.py
+
+      - name: Commit y push si hay cambios
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config core.quotepath false
+          git add Gas/gas_total.csv Gas/MIBGAS_Data_*.csv Petr*/petroleo.csv
+          git diff --cached --quiet && echo "Sin cambios" || \
+            git commit -m "chore: actualización automática $(date -u +%Y-%m-%d)" && git push
