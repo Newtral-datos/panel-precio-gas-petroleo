@@ -2,7 +2,7 @@ name: Actualizar datos de energía
 
 on:
   schedule:
-    - cron: "15 9 * * 1-5"   # Lunes–Viernes a las 09:15 UTC (10:15 CET / 11:15 CEST)
+    - cron: "0 5 * * 1-5"    # Lunes–Viernes a las 05:00 UTC (06:00 CET / 07:00 CEST)
   workflow_dispatch:           # Disparo manual desde la UI de GitHub
 
 permissions:
