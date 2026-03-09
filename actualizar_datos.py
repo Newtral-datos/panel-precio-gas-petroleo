@@ -187,7 +187,7 @@ def update_oil() -> bool:
 
     # --- Actualiza petroleo.csv ---
     try:
-        df = pd.read_csv(oil_csv, sep=";")
+        df = pd.read_csv(oil_csv)
         existing_dates = set(df["fecha"].astype(str))
         if fecha in existing_dates:
             log.info("Fecha %s ya existe en petroleo.csv; sin cambios", fecha)
